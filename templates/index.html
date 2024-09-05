@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Meal Scraper</title>
+    </head>
+    <body>
+        <div>
+            <form action="{{url_for('FindingMeal')}}" method="get">
+                <p>Meal Name:</p>
+                <input type="text" placeholder="chilli" name="meal">
+                <input type="submit">Search</input>
+            </form>
+            {{arr}}
+        </div>
+    </body>
+</html>
