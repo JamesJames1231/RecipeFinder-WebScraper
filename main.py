@@ -1,34 +1,37 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = "https://realpython.github.io/fake-jobs/"
-page = requests.get(URL)
+def ScrapeSite():
+    URL = "https://www.bbcgoodfood.com/recipes/slow-cooker-spaghetti-bolognese"
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, "html.parser")
+    ReturnIngredients(soup)
 
-soup = BeautifulSoup(page.content, "html.parser")
-results = soup.find(id="ResultsContainer")
+def ReturnIngredients(soup):
+    results = soup.find(class_="recipe__ingredients")
 
-job_elements = results.find_all("div", class_="card-content")
-for job_element in job_elements:
-    title_element = job_element.find("h2", class_="title")
-    company_element = job_element.find("h3", class_="company")
-    location_element = job_element.find("p", class_="location")
-    print(title_element.text.strip())
-    print(company_element.text.strip())
-    print(location_element.text.strip())
-    print()
+    title = results.find("h2", class_="section-heading-1")
+    print(title.text.strip())
 
-python_jobs = results.find_all(
-    "h2", string=lambda text: "python" in text.lower()
-)
+    job_elements = results.find_all("li", class_="list-item")
+    for job_element in job_elements:
+        print(job_element.text.strip())
+        print()
+        
+    ReturnMethod(soup)
 
-python_job_elements = [
-    h2_element.parent.parent.parent for h2_element in python_jobs
-]
+def ReturnMethod(soup):
+    results = soup.find(class_="js-piano-recipe-method")
 
-for job_element in python_job_elements:
-    # -- snip --
-    links = job_element.find_all("a")
-    for link in links:
-        link_url = link["href"]
-        print(f"Apply here: {link_url}\n")
+    title = results.find("h3", class_="section-heading-1")
+    print(title.text.strip())
 
+    job_elements = results.find_all("li", class_="list-item")
+    for job_element in job_elements:
+        title_elements = job_element.find("span", class_="heading-6")
+        body_element = job_element.find("div", class_="editor-content")
+        print(title_elements.text.strip())
+        print(body_element.text.strip())
+        print()
+
+ScrapeSite()
