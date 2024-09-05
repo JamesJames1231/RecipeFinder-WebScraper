@@ -1,11 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 
-def ScrapeSite():
-    URL = "https://www.bbcgoodfood.com/recipes/slow-cooker-spaghetti-bolognese"
+def ScrapeSite(content):
+    URL = "https://www.bbcgoodfood.com/recipes/" + content
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     ReturnIngredients(soup)
+
+
 
 def ReturnIngredients(soup):
     results = soup.find(class_="recipe__ingredients")
@@ -19,6 +21,8 @@ def ReturnIngredients(soup):
         print()
         
     ReturnMethod(soup)
+
+
 
 def ReturnMethod(soup):
     results = soup.find(class_="js-piano-recipe-method")
@@ -34,4 +38,32 @@ def ReturnMethod(soup):
         print(body_element.text.strip())
         print()
 
-ScrapeSite()
+
+
+def FindingMeal():
+    URL = "https://www.bbcgoodfood.com/search?q=" + "chilli"
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, "html.parser")
+    
+    results = soup.find(class_="search-results")
+    meal_results = results.find_all("article", class_="card")
+
+    for meal_element in meal_results:
+
+        ##Title of the meal
+        title_element = meal_element.find("div", class_="card__content")
+        final_title_element = title_element.find("h2", class_="heading-4")
+        print(final_title_element.text.strip())
+
+        ##Cook time
+        time_element = meal_element.find("li", class_="pr-md")
+        final_time_element = time_element.find("span", class_="terms-icons-list__text")
+        print(final_time_element.text.strip())
+        
+        print()
+
+
+    ##ScrapeSite("slow-cooker-spaghetti-bolognese")
+
+
+FindingMeal()
