@@ -27,7 +27,7 @@ def ScrapeSite():
         methodArr.append(job_element.find("div", class_="editor-content").text.strip())
 
 
-    return render_template('recipe.html', ingArr=ingArr, methodArr=methodArr)
+    return render_template('recipe.html', ingArr=ingArr, methodArr=methodArr, ingLen=len(ingArr), methLen=len(methodArr))
 
 
 def ReturnIngredients(soup):
