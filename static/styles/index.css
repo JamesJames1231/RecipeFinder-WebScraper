@@ -1,0 +1,54 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.header{
+    width: 100vw;
+    background-color: blue;
+
+    padding: 2rem;
+    color: white;
+    margin-bottom: 1rem;
+}
+.header input[type=submit]{
+    padding: .5rem 1rem;
+}
+.header input[type=text]{
+    padding: .75rem;
+    border-radius: .5rem;
+    border: 0;
+}
+
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100vw;
+    flex-wrap: wrap;
+}
+
+.results_box{
+    padding: 1.5rem;
+    border-radius: 0.3rem;
+    border: 1px solid black;
+    max-width: 50%;
+    min-width: 25%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    margin: 1rem;
+}
+
+.results_box:hover{
+    border: 1px solid red;
+}
+
+.meal_image{
+    border-radius: .3rem;
+    box-shadow: 2px 2px black;
+    margin: .4rem;
+}

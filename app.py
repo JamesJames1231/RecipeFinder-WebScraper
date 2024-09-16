@@ -59,22 +59,28 @@ def FindingMeal():
     meal_results = results.find_all("article", class_="card")
 
     arr = []
+    imageArr = []
+    timeArr = []
 
     for meal_element in meal_results:
 
         ##Title of the meal
         title_element = meal_element.find("div", class_="card__content")
-        final_title_element = title_element.find("h2", class_="heading-4")
+        final_title_element = title_element.find("h2", class_="heading-4").text.strip()
+        arr.append(final_title_element)
 
 
         ##Cook time
         time_element = meal_element.find("li", class_="pr-md")
-        final_time_element = time_element.find("span", class_="terms-icons-list__text")
+        final_time_element = time_element.find("span", class_="terms-icons-list__text").text.strip()
+        timeArr.append(final_time_element)
 
-        combined = final_title_element.text.strip() +  " " + final_time_element.text.strip()
-        arr.append(combined)
+        ##Image
+        image_element = meal_element.find("img", class_="image__img")
+        final_image = image_element.attrs['src']
+        imageArr.append(final_image)
 
-    return render_template('index.html', arr=arr, len=len(arr))
+    return render_template('index.html', arr=arr, len=len(arr), imageArr=imageArr, timeArr=timeArr)
 
 
     ##ScrapeSite("slow-cooker-spaghetti-bolognese")
