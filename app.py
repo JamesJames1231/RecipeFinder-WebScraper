@@ -4,46 +4,50 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-def ScrapeSite(content):
-    URL = "https://www.bbcgoodfood.com/recipes/" + content
+@app.route("/scrape", methods=['POST'])
+def ScrapeSite():
+    
+    content = request.form['chosen']
+
+    URL = content
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
-    ReturnIngredients(soup)
 
+    ingArr = []
+    methodArr = []
+
+    ingredients = ReturnIngredients(soup)
+    methods = ReturnMethod(soup)
+
+    for job_element in ingredients:
+        ingArr.append(job_element.text.strip())
+    
+    for job_element in methods:
+        methodArr.append(job_element.find("span", class_="heading-6").text.strip())
+        methodArr.append(job_element.find("div", class_="editor-content").text.strip())
+
+
+    return render_template('recipe.html', ingArr=ingArr, methodArr=methodArr)
 
 
 def ReturnIngredients(soup):
     results = soup.find(class_="recipe__ingredients")
-
-    title = results.find("h2", class_="section-heading-1")
-    print(title.text.strip())
-
     job_elements = results.find_all("li", class_="list-item")
-    for job_element in job_elements:
-        print(job_element.text.strip())
-        print()
-        
-    ReturnMethod(soup)
-
+    return job_elements
 
 
 def ReturnMethod(soup):
     results = soup.find(class_="js-piano-recipe-method")
-
-    title = results.find("h3", class_="section-heading-1")
-    print(title.text.strip())
-
     job_elements = results.find_all("li", class_="list-item")
-    for job_element in job_elements:
-        title_elements = job_element.find("span", class_="heading-6")
-        body_element = job_element.find("div", class_="editor-content")
-        print(title_elements.text.strip())
-        print(body_element.text.strip())
-        print()
+    return job_elements
+
+
+
 
 @app.route("/")
 def home():
     return render_template("index.html", arr="", len=0)
+
 
 
 @app.route("/search", methods=['POST'])
@@ -87,6 +91,3 @@ def FindingMeal():
         linkArr.append(final_link)
 
     return render_template('index.html', arr=arr, len=len(arr), imageArr=imageArr, timeArr=timeArr, linkArr=linkArr)
-
-
-    ##ScrapeSite("slow-cooker-spaghetti-bolognese")
