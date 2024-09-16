@@ -30,8 +30,12 @@ def ScrapeSite():
     for job_element in methods:
         methodArr.append(job_element.find("div", class_="editor-content").text.strip())
 
+    image_container = soup.find(class_="post-header__container")
+    image = image_container.find("img", class_="image__img").attrs['src']
 
-    return render_template('recipe.html', ingArr=ingArr, methodArr=methodArr, ingLen=len(ingArr), methLen=len(methodArr))
+    title = soup.find("h1", class_="heading-1").text.strip()
+
+    return render_template('recipe.html', image=image, title=title, ingArr=ingArr, methodArr=methodArr, ingLen=len(ingArr), methLen=len(methodArr))
 
 
 def ReturnIngredients(soup):

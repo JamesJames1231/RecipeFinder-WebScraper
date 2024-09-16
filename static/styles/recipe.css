@@ -1,10 +1,23 @@
 body{
     background-color: #FAF9F6;
 }
+
+.chosen_image{
+    width: 300px;
+    height: 300px;
+    border-radius: .5rem;
+    margin: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+.title{
+    margin-left: 1.5rem;
+}
+
 ul, ol{
     padding: 2rem;
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     width: 100vw;
 }
 
