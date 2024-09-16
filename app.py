@@ -4,6 +4,11 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+@app.route("/")
+def home():
+    return render_template("index.html", arr="", len=0)
+
+
 @app.route("/scrape", methods=['POST'])
 def ScrapeSite():
     
@@ -40,14 +45,6 @@ def ReturnMethod(soup):
     results = soup.find(class_="js-piano-recipe-method")
     job_elements = results.find_all("li", class_="list-item")
     return job_elements
-
-
-
-
-@app.route("/")
-def home():
-    return render_template("index.html", arr="", len=0)
-
 
 
 @app.route("/search", methods=['POST'])

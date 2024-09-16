@@ -2,10 +2,16 @@
 <html>
     <head>
         <title>Meal Scraper</title>
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/index.css') }}" type= "text/css">
         <link rel="stylesheet" href="{{ url_for('static',filename='styles/recipe.css') }}" type= "text/css">
     </head>
     <body>
         <div>
+            <form action="{{url_for('FindingMeal')}}" method="POST" class="header">
+                <h2>Search for a meal:</h2>
+                <input type="text" placeholder="Super Tasty Meal" name="meal">
+                <input type="submit" value="Search"></input>
+            </form>
             <ul>
                 <h4>Ingredients</h4>
                 {%for i in range(0, ingLen)%}
@@ -14,9 +20,9 @@
             </ul>
             <ol>
                 <h4>Method</h4>
-                {%for i in range(0, methLen)%}
-                    <li>{{methodArr[i]}}</li>
-                {%endfor%}
+                {% for i in range(0, methLen) %}                                                                     
+                    <h4 class="{% cycle 'even' 'odd' %}">{{methodArr[i]}}</h4>
+                {% endfor %}
             </ol>
         </div>
     </body>

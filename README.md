@@ -2,7 +2,7 @@
 
 Week One: Food Recipie Web Scraper (Complete)
 
-Week Two: Stock Checker
+Week Two: Stock Checker & Stock Updater
 
 Week Three: Suggestions Based on Food In Stock
 

@@ -1,0 +1,14 @@
+ul, ol{
+    padding: 2rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    width: 100vw;
+}
+
+.even{
+    background-color: red;
+}
+
+.odd{
+    background-color: violet;
+}
