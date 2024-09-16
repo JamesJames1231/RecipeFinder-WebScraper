@@ -28,7 +28,6 @@ def ScrapeSite():
         ingArr.append(job_element.text.strip())
     
     for job_element in methods:
-        methodArr.append(job_element.find("span", class_="heading-6").text.strip())
         methodArr.append(job_element.find("div", class_="editor-content").text.strip())
 
 

@@ -12,18 +12,20 @@
                 <input type="text" placeholder="Super Tasty Meal" name="meal">
                 <input type="submit" value="Search"></input>
             </form>
-            <ul>
-                <h4>Ingredients</h4>
-                {%for i in range(0, ingLen)%}
-                    <li>{{ingArr[i]}}</li>
-                {%endfor%}
-            </ul>
-            <ol>
-                <h4>Method</h4>
-                {% for i in range(0, methLen) %}                                                                     
-                    <h4 class="{% cycle 'even' 'odd' %}">{{methodArr[i]}}</h4>
-                {% endfor %}
-            </ol>
+            <div class="main">
+                <ul class="ing_list">
+                    <h4>Ingredients</h4>
+                    {%for i in range(0, ingLen)%}
+                        <li>{{ingArr[i]}}</li>
+                    {%endfor%}
+                </ul>
+                <ol class="method_list">
+                    <h4>Method</h4>
+                    {% for i in range(0, methLen) %}                                                                     
+                        <li>{{methodArr[i]}}</li>
+                    {% endfor %}
+                </ol>
+            </div>
         </div>
     </body>
 </html>
