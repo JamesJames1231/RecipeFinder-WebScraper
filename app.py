@@ -61,6 +61,7 @@ def FindingMeal():
     arr = []
     imageArr = []
     timeArr = []
+    linkArr = []
 
     for meal_element in meal_results:
 
@@ -80,7 +81,12 @@ def FindingMeal():
         final_image = image_element.attrs['src']
         imageArr.append(final_image)
 
-    return render_template('index.html', arr=arr, len=len(arr), imageArr=imageArr, timeArr=timeArr)
+        ##Link to recipe
+        link_element = meal_element.find("a", class_="link")
+        final_link = link_element.attrs['href']
+        linkArr.append(final_link)
+
+    return render_template('index.html', arr=arr, len=len(arr), imageArr=imageArr, timeArr=timeArr, linkArr=linkArr)
 
 
     ##ScrapeSite("slow-cooker-spaghetti-bolognese")
