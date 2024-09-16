@@ -46,10 +46,10 @@ def home():
     return render_template("index.html", arr="", len=0)
 
 
-@app.route("/search", methods=['GET'])
+@app.route("/search", methods=['POST'])
 def FindingMeal():
 
-    meal = request.form['search']
+    meal = request.form['meal']
 
     URL = "https://www.bbcgoodfood.com/search?q=" + meal
     page = requests.get(URL)
