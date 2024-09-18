@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    DatabaseConn()
     return render_template("index.html", arr="", len=0)
 
 
@@ -16,8 +15,15 @@ def ScrapeSite():
     
     content = request.form['chosen']
 
-    URL = content
-    page = requests.get(URL)
+    checkQuery = f"SELECT * FROM saved WHERE addr = '{content}';"
+    check = DataQuery(checkQuery, "select-one")
+
+    saved = "yes"
+    if check == None:
+        saved = "no"
+
+    url = content
+    page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
 
     ingArr = []
@@ -37,7 +43,7 @@ def ScrapeSite():
 
     title = soup.find("h1", class_="heading-1").text.strip()
 
-    return render_template('recipe.html', image=image, title=title, ingArr=ingArr, methodArr=methodArr, ingLen=len(ingArr), methLen=len(methodArr))
+    return render_template('recipe.html', saved=saved, url=url, image=image, title=title, ingArr=ingArr, methodArr=methodArr, ingLen=len(ingArr), methLen=len(methodArr))
 
 
 def ReturnIngredients(soup):
@@ -98,7 +104,7 @@ def DataQuery(query, type):
     con = sqlite3.connect("food.db")
     cur = con.cursor()
     
-    if type == "create" or type == "insert":
+    if type == "create" or type == "insert" or type == "delete":
         cur.execute(query)
         con.commit()
         con.close()
@@ -109,6 +115,7 @@ def DataQuery(query, type):
         finalRes = response.fetchone()
         con.commit()
         con.close()
+        print(finalRes)
         return finalRes
 
     elif type == "select-all":
@@ -120,7 +127,49 @@ def DataQuery(query, type):
 
     return cur          
 
-query = "SELECT * FROM saved"
-typ = "select-all"
 
-print(DataQuery(query, typ))
+@app.route("/SaveMeal", methods=['POST'])
+def SaveMeal():
+    try:
+        mealName = request.form['savemeal']
+        mealLink = request.form['address']
+        print(mealLink, mealName)
+    except Exception as err:
+        print(err + "one")
+
+    try:
+        con = sqlite3.connect("food.db")
+        cur = con.cursor()
+
+        checkQuery = f"SELECT * FROM saved WHERE addr = '{mealLink}';"
+        check = DataQuery(checkQuery, "select-one")
+        if check == None:
+            query = """INSERT INTO saved (name, addr) VALUES (?, ?)"""
+            query_values = (mealName, mealLink)
+            cur.execute(query, query_values)
+
+            con.commit()
+            cur.close()
+
+            return SavedMeals()
+        
+        else: 
+            return "Already Exists"
+
+    except sqlite3.Error as error:
+        print(error)
+        return "erro"
+   
+        
+@app.route("/RemoveMeals", methods=["POST"])
+def RemoveMeals():
+    mealLink = request.form['address']
+    query = f"DELETE FROM saved WHERE addr = '{mealLink}'"
+    DataQuery(query, "delete")
+    return SavedMeals()
+        
+@app.route("/SavedMeals", methods=["POST"])
+def SavedMeals():
+    query = "SELECT * FROM saved"
+    response = DataQuery(query, "select-all")
+    return render_template('saved.html', response=response, len=len(response))
