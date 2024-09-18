@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Meal Scraper</title>
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/recipe.css') }}" type= "text/css">
         <link rel="stylesheet" href="{{ url_for('static',filename='styles/index.css') }}" type= "text/css">
     </head>
     <body>
@@ -12,19 +13,15 @@
                     <input type="text" placeholder="Super Tasty Meal" name="meal">
                     <input type="submit" value="Search"></input>
                 </form>
-                <form action="{{url_for('SavedMeals')}}" method="POST">
-                    <input type="Submit" value="Saved Meals">
-                </form>
             </div>
+            <h3 class="saved_title">Your Saved Meals:</h3>
             <div class="content">
                 {%for i in range(0, len)%}
-                    <form action="{{url_for('ScrapeSite')}}" method="POST" name="search-form{{timeArr[i]}}" hidden>
-                        <input type="text" value="https://www.bbcgoodfood.com/{{linkArr[i]}}" name="chosen">
+                    <form action="{{url_for('ScrapeSite')}}" method="POST" name="search-form{{response[i][2]}}" hidden>
+                        <input type="text" value={{response[i][2]}} name="chosen">
                     </form>
-                    <div class="results_box" onclick="document.forms['search-form{{timeArr[i]}}'].submit()">
-                        <img src="{{imageArr[i]}}" class="meal_image">
-                        <h4>{{arr[i]}}</h4>
-                        <h5>{{timeArr[i]}}</h5>
+                    <div class="results_box" onclick="document.forms['search-form{{response[i][2]}}'].submit()">
+                        <h5>{{response[i][1]}}</h5>
                     </div>
                 {%endfor%}
             </div>

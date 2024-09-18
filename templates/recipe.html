@@ -7,14 +7,37 @@
     </head>
     <body>
         <div>
-            <form action="{{url_for('FindingMeal')}}" method="POST" class="header">
-                <h2>Search for a meal:</h2>
-                <input type="text" placeholder="Super Tasty Meal" name="meal">
-                <input type="submit" value="Search"></input>
-            </form>
+            <div class="header">
+                <form action="{{url_for('FindingMeal')}}" method="POST">
+                    <h2>Search for a meal:</h2>
+                    <input type="text" placeholder="Super Tasty Meal" name="meal">
+                    <input type="submit" value="Search"></input>
+                </form>
+                <form action="{{url_for('SavedMeals')}}" method="POST">
+                    <input type="Submit" value="Saved Meals">
+                </form>
+            </div>
             <div class="img_title">
                 <img src="{{image}}" class="chosen_image">
                 <h2 class="title">{{title}}</h2>
+                {% block content %}
+                    {% if saved == "yes" %}
+                    <form action="{{url_for('RemoveMeals')}}" method="POST" name="remove">
+                        <div class="SaveImage" onclick="document.forms['remove'].submit()">
+                            <a href="" onclick="return false">Remove Meal.</a>
+                        </div>
+                        <input type="text" name="address" value="{{url}}" hidden>
+                    </form>
+                    {% else %}
+                        <form action="{{url_for('SaveMeal')}}" method="POST" name="save">
+                            <div class="SaveImage" onclick="document.forms['save'].submit()">
+                                <a href="" onclick="return false">Save Meal.</a>
+                            </div>
+                            <input type="text" name="savemeal" value="{{title}}" hidden>
+                            <input type="text" name="address" value="{{url}}" hidden>
+                        </form>
+                    {% endif %}
+                {% endblock content %}
             </div>
             <div class="main">
                 <ul class="ing_list">
