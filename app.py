@@ -158,7 +158,7 @@ def SaveMeal():
 
     except sqlite3.Error as error:
         print(error)
-        return "erro"
+        return "error"
    
         
 @app.route("/RemoveMeals", methods=["POST"])
