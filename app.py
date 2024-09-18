@@ -1,11 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, request
+import sqlite3
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
+    DatabaseConn()
     return render_template("index.html", arr="", len=0)
 
 
@@ -91,3 +93,7 @@ def FindingMeal():
         linkArr.append(final_link)
 
     return render_template('index.html', arr=arr, len=len(arr), imageArr=imageArr, timeArr=timeArr, linkArr=linkArr)
+
+def DatabaseConn():
+    con = sqlite3.connect("food.db")
+    return con
