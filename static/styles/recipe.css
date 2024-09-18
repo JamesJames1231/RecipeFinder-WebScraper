@@ -51,6 +51,8 @@ ol li{
     max-width: 33vw;
     padding: 1rem;
     justify-self: flex-end;
+    text-align: end;
+    list-style-position: inside;
 }
 
 .method_list{

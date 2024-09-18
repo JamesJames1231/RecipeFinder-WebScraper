@@ -94,6 +94,19 @@ def FindingMeal():
 
     return render_template('index.html', arr=arr, len=len(arr), imageArr=imageArr, timeArr=timeArr, linkArr=linkArr)
 
-def DatabaseConn():
+def DataQuery(query, type):
     con = sqlite3.connect("food.db")
-    return con
+    cur = con.cursor()
+    
+    if type == "create" or type == "insert":
+        cur.execute(query)
+        con.commit()
+        con.close()
+        return cur
+    
+    return cur          
+
+query = "INSERT INTO saved(name, addr) VALUES ('Chilli con carne recipe', 'https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe')"
+typ = "insert"
+
+DataQuery(query, typ)
