@@ -104,9 +104,23 @@ def DataQuery(query, type):
         con.close()
         return cur
     
+    elif type == "select-one":
+        response = cur.execute(query)
+        finalRes = response.fetchone()
+        con.commit()
+        con.close()
+        return finalRes
+
+    elif type == "select-all":
+        response = cur.execute(query)
+        finalRes = response.fetchall()
+        con.commit()
+        con.close()
+        return finalRes
+
     return cur          
 
-query = "INSERT INTO saved(name, addr) VALUES ('Chilli con carne recipe', 'https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe')"
-typ = "insert"
+query = "SELECT * FROM saved"
+typ = "select-all"
 
-DataQuery(query, typ)
+print(DataQuery(query, typ))
