@@ -6,4 +6,4 @@ Week Two: Stock Checker & Stock Updater (Current)
 
 Week Three: Suggestions Based on Food In Stock
 
-Week Four: Food BBD Manager
+Week Four: Food BBD Manager (Lil Update)
